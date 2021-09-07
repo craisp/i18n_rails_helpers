@@ -1,4 +1,3 @@
-
 module I18nRailsHelpers
   module ControllerHelpers
     delegate :t_attr, :t_model, :t_action, to: :helpers
@@ -10,8 +9,10 @@ module I18nRailsHelpers
     #   redirect_to some_path, redirect_notice(@client)  # => 'Klient Example Client geändert.'
     #
     def redirect_notice(record = nil)
-      { notice: I18n.t("crud.notices.#{action_name}", model: helpers.t_model,
-        record: record.present? ? "#{record} " : '') }
+      { notice: I18n.t("crud.notices.#{controller_name.underscore}.#{action_name}",
+                       default: :"crud.notices.#{action_name}",
+                       model: helpers.t_model,
+                       record: record.present? ? "#{record} " : '') }
     end
   end
 end
